@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wajahat Ali &lt;/&gt; Wajahat Ali</title>
+  <title>Wajahat Ali &lt;/&gt; | Full-Stack Developer & Interactive Experience Designer</title>
   
   <meta name="description" content="Portfolio of Wajahat Ali </> — Full-Stack Web Developer & Interactive Experience Designer. Featuring backend architectures, commercial platforms, and kinetic 3D WebGL/CSS sliders.">
   <meta name="author" content="Wajahat Ali">
+  <meta name="copyright" content="© 2026 Wajahat Ali. All rights reserved.">
 
   <!-- Tailwind CSS & Google Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -48,7 +49,6 @@
       overflow-x: hidden;
     }
 
-    /* 3D Dynamic Glass Cards */
     .glass-card {
       background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(16px);
@@ -66,7 +66,6 @@
       border-color: rgba(6, 182, 212, 0.5);
     }
 
-    /* Interactive 3D Card Tilt Container */
     .tilt-card {
       transform-style: preserve-3d;
       perspective: 1000px;
@@ -126,7 +125,6 @@
       z-index: 0;
     }
 
-    /* 3D Button Dynamics */
     .btn-3d {
       position: relative;
       transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -142,13 +140,12 @@
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-[#060911] dark:text-slate-100 selection:bg-cyan-500 selection:text-white relative">
 
-  <!-- Fixed Global Three.js Ambient Particle Space -->
+  <!-- Fixed Three.js Ambient Particle Space -->
   <canvas id="ambient-particles-canvas"></canvas>
 
   <!-- ================= NAVBAR ================= -->
   <nav class="fixed top-0 left-0 w-full z-50 glass-card py-2.5 sm:py-3 px-4 sm:px-6 md:px-12 flex justify-between items-center transition-all duration-300">
     <a href="#" class="logo-container flex items-center gap-2 sm:gap-3 group">
-      <!-- 3D "W" Logo -->
       <div class="logo-3d-box w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-slate-900/90 to-slate-950/90 border border-cyan-500/30 flex items-center justify-center p-1.5 shadow-lg shadow-cyan-500/20 relative overflow-hidden">
         <div class="absolute inset-0 bg-cyan-500/10 rounded-xl blur-sm group-hover:bg-cyan-500/25 transition"></div>
         <svg viewBox="0 0 100 100" class="w-full h-full relative z-10 filter drop-shadow-[0_2px_8px_rgba(6,182,212,0.6)]" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -246,8 +243,8 @@
             <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
           </a>
           <a href="#sliders-lab" class="btn-3d px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl glass-card text-cyan-600 dark:text-cyan-400 font-semibold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 hover:bg-white/10 border-cyan-500/30">
-            <i data-lucide="box" class="w-4 h-4"></i>
-            <span>3D Sliders Lab</span>
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>3D Sliders Lab (16 Styles)</span>
           </a>
         </div>
       </div>
@@ -559,7 +556,7 @@
     </div>
   </section>
 
-  <!-- ================= DEDICATED 3D SLIDERS LAB SECTION ================= -->
+  <!-- ================= DEDICATED 3D SLIDERS LAB SECTION (16 STYLES) ================= -->
   <section id="sliders-lab" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-7xl mx-auto border-t border-slate-200 dark:border-white/5">
     <div class="mb-10 text-center md:text-left">
       <div class="inline-flex items-center gap-2 text-cyan-400 text-xs uppercase font-bold tracking-widest mb-3">
@@ -567,192 +564,332 @@
         Interactive 3D Motion Lab
       </div>
       <h2 class="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white">
-        Kinetic 3D Sliders & Spatial Math Engine
+        Kinetic 3D Sliders & Spatial Math Engine (16 Working Styles)
       </h2>
       <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2 max-w-2xl">
         Every single card below reacts with 3D tilt and cursor spotlights. Click any card to launch the live, fully interactive slider playground with touch swipe & controls!
       </p>
     </div>
 
-    <!-- 3D SLIDERS GRID -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- 16 3D SLIDERS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="sliders-grid">
 
-      <!-- Slider 1 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-cyan-500/20">
+      <!-- 1. Diamond Prism -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-cyan-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 font-mono font-bold border border-cyan-500/30">Style 01</span>
-              <span class="text-xs text-slate-400 font-mono">Rotate3D Matrix</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-mono font-bold border border-cyan-500/30">Style 01</span>
+              <span class="text-[11px] text-slate-400 font-mono">Rotate3D</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Diamond Prism Flip</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Diamond Prism Flip</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              3D angled card deck featuring rotate3d(1, 1, 0, 55deg) spatial translations with depth scaling and smooth momentum easing.
+              Rotate3d(1, 1, 0, 55deg) spatial deck with depth scaling and momentum easing.
             </p>
           </div>
-          <button onclick="launchSlider('prism')" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('prism')" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 2 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-indigo-500/20">
+      <!-- 2. Rotating Kinetic Cube -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-indigo-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 font-mono font-bold border border-indigo-500/30">Style 02</span>
-              <span class="text-xs text-slate-400 font-mono">3D Box Geometry</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 font-mono font-bold border border-indigo-500/30">Style 02</span>
+              <span class="text-[11px] text-slate-400 font-mono">3D Box</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Rotating Kinetic Cube</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">3D Rotating Kinetic Cube</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              4-sided geometric 3D box with 90-degree axial rotations, floor shadow simulation, and auto/manual toggle controllers.
+              4-sided geometric 3D box with 90-degree axial rotations and floor shadows.
             </p>
           </div>
-          <button onclick="launchSlider('cube')" class="btn-3d w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('cube')" class="btn-3d w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-indigo-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 3 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-purple-500/20">
+      <!-- 3. Cyber Coverflow -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-purple-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 font-mono font-bold border border-purple-500/30">Style 03</span>
-              <span class="text-xs text-slate-400 font-mono">Spatial Coverflow</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-mono font-bold border border-purple-500/30">Style 03</span>
+              <span class="text-[11px] text-slate-400 font-mono">Coverflow</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Cyber Coverflow</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">3D Cyber Coverflow</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Apple-inspired spatial coverflow with dynamic Z-depth pushback, peripheral card tilt angles, and focal point blur transitions.
+              Spatial coverflow with dynamic Z-depth pushback, peripheral tilt & blur.
             </p>
           </div>
-          <button onclick="launchSlider('coverflow')" class="btn-3d w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-purple-600/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('coverflow')" class="btn-3d w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-purple-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 4 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-pink-500/20">
+      <!-- 4. Pendulum Gravity Swing -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-pink-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-400 font-mono font-bold border border-pink-500/30">Style 04</span>
-              <span class="text-xs text-slate-400 font-mono">Inertial Physics</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-mono font-bold border border-pink-500/30">Style 04</span>
+              <span class="text-[11px] text-slate-400 font-mono">Pendulum</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Pendulum Gravity Swing</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Pendulum Gravity Swing</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Top-anchored rotation cards mimicking real pendulum gravitational swing, harmonic dampening, and elastic momentum.
+              Top-anchored rotation cards mimicking real pendulum gravitational swing.
             </p>
           </div>
-          <button onclick="launchSlider('pendulum')" class="btn-3d w-full py-2.5 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-pink-600/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('pendulum')" class="btn-3d w-full py-2.5 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-pink-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 5 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-amber-500/20">
+      <!-- 5. Curved IMAX Cinema Wall -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-amber-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 font-mono font-bold border border-amber-500/30">Style 05</span>
-              <span class="text-xs text-slate-400 font-mono">Panoramic Curve</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-mono font-bold border border-amber-500/30">Style 05</span>
+              <span class="text-[11px] text-slate-400 font-mono">IMAX Curve</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Curved IMAX Cinema Wall</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Curved IMAX Cinema Wall</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Parabolic polynomial projection creating an amphitheater wrap-around curved visual cinema stage in 3D perspective space.
+              Parabolic curve projection creating an amphitheater wrap-around stage.
             </p>
           </div>
-          <button onclick="launchSlider('imax')" class="btn-3d w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('imax')" class="btn-3d w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-amber-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 6 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-emerald-500/20">
+      <!-- 6. Layered 3D Card Stack -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-emerald-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-mono font-bold border border-emerald-500/30">Style 06</span>
-              <span class="text-xs text-slate-400 font-mono">Stack Kinematics</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono font-bold border border-emerald-500/30">Style 06</span>
+              <span class="text-[11px] text-slate-400 font-mono">Stack</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Layered 3D Card Stack</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Layered 3D Card Stack</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Cascading vertical card stack with 3D fly-out discard animations, auto-reordering arrays, and directional swipe gestures.
+              Cascading vertical card stack with 3D fly-out discard & re-stack gestures.
             </p>
           </div>
-          <button onclick="launchSlider('stack')" class="btn-3d w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('stack')" class="btn-3d w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 7 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-teal-500/20">
+      <!-- 7. Cyber HUD Hologram -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-teal-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-400 font-mono font-bold border border-teal-500/30">Style 07</span>
-              <span class="text-xs text-slate-400 font-mono">Holographic FX</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 font-mono font-bold border border-teal-500/30">Style 07</span>
+              <span class="text-[11px] text-slate-400 font-mono">Holo HUD</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Cyber HUD Hologram</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Cyber HUD Hologram</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Sci-fi heads-up-display styling with cyan border glows, dynamic hue-rotate filter shifts, and isometric perspective scales.
+              Sci-fi heads-up-display styling with cyan border glows & hue filter shifts.
             </p>
           </div>
-          <button onclick="launchSlider('hud')" class="btn-3d w-full py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-teal-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('hud')" class="btn-3d w-full py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-teal-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 8 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-blue-500/20">
+      <!-- 8. Cinematic Depth Zoom Portal -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-blue-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 font-mono font-bold border border-blue-500/30">Style 08</span>
-              <span class="text-xs text-slate-400 font-mono">Z-Axis Portal</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-mono font-bold border border-blue-500/30">Style 08</span>
+              <span class="text-[11px] text-slate-400 font-mono">Zoom Portal</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Cinematic Depth Zoom Portal</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Cinematic Depth Zoom</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Z-depth optical zoom portal where front slides accelerate past the camera lens into the foreground with optical motion blur.
+              Z-depth optical zoom portal where front slides accelerate past the camera.
             </p>
           </div>
-          <button onclick="launchSlider('portal')" class="btn-3d w-full py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('portal')" class="btn-3d w-full py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-blue-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
 
-      <!-- Slider 9 -->
-      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-rose-500/20">
+      <!-- 9. 3D Cylindrical Carousel -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-rose-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 font-mono font-bold border border-rose-500/30">Style 09</span>
-              <span class="text-xs text-slate-400 font-mono">360° Cylinder</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 font-mono font-bold border border-rose-500/30">Style 09</span>
+              <span class="text-[11px] text-slate-400 font-mono">360° Cylinder</span>
             </div>
-            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Cylindrical Carousel</h3>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">3D Cylindrical Carousel</h3>
             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
-              Full 360-degree rotating cylinder with trigonometric radius auto-calculation (r = w/2 / tan(PI/N)) and live touch drag momentum.
+              Full 360-degree rotating cylinder with trigonometric radius auto-calculation.
             </p>
           </div>
-          <button onclick="launchSlider('cylinder')" class="btn-3d w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25">
-            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          <button onclick="launchSlider('cylinder')" class="btn-3d w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-rose-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 10. Split Vault Doors -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-cyan-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-mono font-bold border border-cyan-500/30">Style 10</span>
+              <span class="text-[11px] text-slate-400 font-mono">Vault Doors</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Split Vault Doors</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Dual angular door displacement with synchronized reverse lateral rotations.
+            </p>
+          </div>
+          <button onclick="launchSlider('vault')" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-cyan-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 11. Venetian Airport Flaps -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-indigo-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 font-mono font-bold border border-indigo-500/30">Style 11</span>
+              <span class="text-[11px] text-slate-400 font-mono">Airport Flaps</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Venetian Airport Flaps</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Center-bottom mechanical flap physics (rotateX -90deg to 90deg transitions).
+            </p>
+          </div>
+          <button onclick="launchSlider('flaps')" class="btn-3d w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 12. Sine Wave Ribbon -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-purple-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-mono font-bold border border-purple-500/30">Style 12</span>
+              <span class="text-[11px] text-slate-400 font-mono">Sine Wave</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Sine Wave Ribbon</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Fluid trigonometric sine/cosine wave pathing with continuous curve modulation.
+            </p>
+          </div>
+          <button onclick="launchSlider('sinewave')" class="btn-3d w-full py-2.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-purple-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 13. Vortex Spiral Twister -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-pink-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-400 font-mono font-bold border border-pink-500/30">Style 13</span>
+              <span class="text-[11px] text-slate-400 font-mono">Vortex Twister</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Vortex Spiral Twister</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Corkscrew rotational vortex with 3D Z-depth scaling and centrifugal twist.
+            </p>
+          </div>
+          <button onclick="launchSlider('vortex')" class="btn-3d w-full py-2.5 rounded-xl bg-pink-500 hover:bg-pink-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-pink-500/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 14. Isometric 3D Stairs -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-amber-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-mono font-bold border border-amber-500/30">Style 14</span>
+              <span class="text-[11px] text-slate-400 font-mono">3D Stairs</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">Isometric 3D Stairs</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Isometric rotateX(45deg) rotateZ(-30deg) ascending staircase conveyor steps.
+            </p>
+          </div>
+          <button onclick="launchSlider('stairs')" class="btn-3d w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-amber-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 15. 3D Magazine Page Flip -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-emerald-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono font-bold border border-emerald-500/30">Style 15</span>
+              <span class="text-[11px] text-slate-400 font-mono">Page Flip</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">3D Magazine Page Flip</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Book binding simulation with left-center anchor and perspective -140deg turns.
+            </p>
+          </div>
+          <button onclick="launchSlider('magazine')" class="btn-3d w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- 16. 3D Poker Fan Spread -->
+      <div class="tilt-card glass-card rounded-2xl p-5 flex flex-col justify-between border-teal-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 font-mono font-bold border border-teal-500/30">Style 16</span>
+              <span class="text-[11px] text-slate-400 font-mono">Poker Fan</span>
+            </div>
+            <h3 class="text-base font-bold font-heading text-slate-900 dark:text-white mb-1.5">3D Poker Fan Spread</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Bottom-center pivot spread featuring angular offsets and card-dealing lift physics.
+            </p>
+          </div>
+          <button onclick="launchSlider('poker')" class="btn-3d w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-teal-600/20">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live Slider
           </button>
         </div>
       </div>
@@ -917,25 +1054,32 @@
           <a href="mailto:wajahat.ali37709@gmail.com" class="text-xs sm:text-base font-semibold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition break-all mb-4">
             wajahat.ali37709@gmail.com
           </a>
-          <a href="mailto:wajahat.ali37709@gmail.com" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+          <a href="mailto:wajahat.ali37709@gmail.com" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20">
             <i data-lucide="send" class="w-3.5 h-3.5"></i> Send Email
           </a>
         </div>
       </div>
 
-      <!-- WhatsApp Card -->
+      <!-- Zong Contact & WhatsApp Card (Fixed: 0312-0248941) -->
       <div class="tilt-card glass-card p-5 sm:p-6 rounded-3xl flex flex-col items-center justify-between border-emerald-500/20">
         <div class="card-spotlight"></div>
         <div class="tilt-card-inner w-full flex flex-col items-center">
           <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3 sm:mb-4">
-            <i data-lucide="phone-call" class="w-6 h-6"></i>
+            <i data-lucide="phone-call" class="w-5 h-5 sm:w-6 sm:h-6"></i>
           </div>
-          <div class="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">WhatsApp Direct</div>
+          <div class="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 mb-1">Direct & WhatsApp (Zong)</div>
+          <div class="text-sm sm:text-base font-mono font-bold text-slate-900 dark:text-white mb-4">
+            +92 312 0248941
+          </div>
           
-          <div class="w-full space-y-2 mb-2">
-            <a href="https://wa.me/923120248942" target="_blank" class="btn-3d w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
+          <div class="w-full space-y-2">
+            <a href="https://wa.me/923120248941" target="_blank" class="btn-3d w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
               <i data-lucide="message-square" class="w-4 h-4"></i>
-              <span>Chat: 0312-0248941</span>
+              <span>Chat on WhatsApp: 0312-0248941</span>
+            </a>
+            <a href="tel:+923120248941" class="btn-3d w-full py-2 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 border border-white/10">
+              <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+              <span>Direct Phone Call: 0312-0248941</span>
             </a>
           </div>
         </div>
@@ -943,14 +1087,19 @@
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="py-6 sm:py-8 border-t border-slate-200 dark:border-white/5 text-center text-xs text-slate-500 relative z-10 px-4">
-    <p class="font-medium text-slate-700 dark:text-slate-400">
-      Designed & Built by <span class="font-bold text-cyan-600 dark:text-cyan-400">Wajahat Ali &lt;/&gt;</span>
-    </p>
-    <p class="mt-1 text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-600">
-      Three.js WebGL Engine • 3D Spatial CSS Transforms • Verified Full-Stack Architecture
-    </p>
+  <!-- ================= FOOTER WITH OFFICIAL COPYRIGHT ================= -->
+  <footer class="py-8 border-t border-slate-200 dark:border-white/5 text-center text-xs text-slate-500 relative z-10 px-4">
+    <div class="max-w-4xl mx-auto space-y-2">
+      <p class="font-bold text-sm text-slate-900 dark:text-white tracking-wide">
+        &copy; 2026 Wajahat Ali. All Rights Reserved.
+      </p>
+      <p class="font-medium text-slate-600 dark:text-slate-400">
+        Designed, Engineered & Maintained by <span class="font-bold text-cyan-600 dark:text-cyan-400">Wajahat Ali &lt;/&gt;</span>
+      </p>
+      <p class="text-[11px] text-slate-400 dark:text-slate-600">
+        Three.js WebGL Engine • Hardware-Accelerated 3D Motion Lab • Verified Full-Stack Architecture
+      </p>
+    </div>
   </footer>
 
   <!-- ================= INTERACTIVE BACKEND CASE STUDY MODAL ================= -->
@@ -1019,11 +1168,9 @@
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        // Set spotlight coordinates
         card.style.setProperty('--mouse-x', `${x}px`);
         card.style.setProperty('--mouse-y', `${y}px`);
 
-        // Compute 3D rotation angles (-8 to +8 degrees)
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         const rotateX = ((y - centerY) / centerY) * -8;
@@ -1110,7 +1257,7 @@
       document.getElementById('project-modal').classList.add('hidden');
     }
 
-    // ----------------- RESPONSIVE 3D SLIDER ENGINE (ZERO CUT-OFF) -----------------
+    // ----------------- 16 WORKING 3D SLIDERS ENGINE (ZERO CUT-OFF) -----------------
     const sampleImages = [
       { img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&q=80", title: "Chrome Waves 01", tag: "Liquid" },
       { img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=700&q=80", title: "Neon Horizon 02", tag: "Cyber" },
@@ -1257,6 +1404,112 @@
             }
           });
         `;
+      } else if (type === 'vault') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const offset = (i - cur + total) % total;
+            if (offset === 0) {
+              card.style.transform = "translate3d(0, 0, 0) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (offset <= 2) {
+              card.style.transform = "translate3d(" + (offset * 120) + "px, 0, " + (offset * -160) + "px) rotateY(" + (offset * -42) + "deg) scale(0.85)";
+              card.style.opacity = 0.7 - offset*0.2; card.style.zIndex = 20 - offset;
+            } else if (offset >= total - 2) {
+              const bOff = total - offset;
+              card.style.transform = "translate3d(" + (bOff * -120) + "px, 0, " + (bOff * -160) + "px) rotateY(" + (bOff * 42) + "deg) scale(0.85)";
+              card.style.opacity = 0.7 - bOff*0.2; card.style.zIndex = 20 - bOff;
+            } else {
+              card.style.transform = "translate3d(0, 0, -380px) scale(0.5)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'flaps') {
+        customCSS = `.slider-card { transform-origin: center bottom; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const offset = (i - cur + total) % total;
+            if (offset === 0) {
+              card.style.transform = "rotateX(0deg) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (offset === 1) {
+              card.style.transform = "rotateX(-85deg) scale(0.85)";
+              card.style.opacity = 0; card.style.zIndex = 10;
+            } else if (offset === total - 1) {
+              card.style.transform = "rotateX(85deg) scale(0.85)";
+              card.style.opacity = 0; card.style.zIndex = 10;
+            } else {
+              card.style.transform = "rotateX(110deg) scale(0.5)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'sinewave') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = i - cur;
+            const x = diff * 120;
+            const z = Math.cos(diff * 0.7) * -160;
+            const rotY = -diff * 16;
+            card.style.transform = "translate3d(" + x + "px, " + (Math.sin(diff)*25) + "px, " + z + "px) rotateY(" + rotY + "deg) scale(" + Math.max(1 - Math.abs(diff)*0.16, 0.55) + ")";
+            card.style.opacity = Math.abs(diff) > 2 ? 0 : 1 - Math.abs(diff)*0.25;
+            card.style.zIndex = 20 - Math.abs(diff);
+          });
+        `;
+      } else if (type === 'vortex') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = (i - cur + total) % total;
+            if (diff === 0) {
+              card.style.transform = "translate3d(0, 0, 0) rotate(0deg) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (diff <= 3) {
+              card.style.transform = "translate3d(" + (diff * 30) + "px, " + (diff * -40) + "px, " + (diff * -160) + "px) rotate(" + (diff * 22) + "deg) scale(" + (1 - diff*0.16) + ")";
+              card.style.opacity = 1 - diff*0.25; card.style.zIndex = 20 - diff;
+            } else {
+              card.style.transform = "translate3d(120px, -150px, -500px) rotate(80deg) scale(0.4)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'stairs') {
+        customCSS = `.slider-deck { transform: rotateX(45deg) rotateZ(-30deg); }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const d = (i - cur + total) % total;
+            card.style.transform = "translate3d(" + (d * -35) + "px, " + (d * 35) + "px, " + (d * -75) + "px)";
+            card.style.opacity = d > 2 ? 0 : 1 - (d * 0.25);
+            card.style.zIndex = 10 - d;
+          });
+        `;
+      } else if (type === 'magazine') {
+        customCSS = `.slider-card { transform-origin: left center; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            if (i < cur) {
+              card.style.transform = "rotateY(-130deg)"; card.style.opacity = 0;
+            } else if (i === cur) {
+              card.style.transform = "rotateY(0deg) translateZ(15px) scale(1)"; card.style.opacity = 1; card.style.zIndex = 20;
+            } else {
+              card.style.transform = "rotateY(0deg) translateZ(" + (-(i-cur)*25) + "px) scale(" + (1-(i-cur)*0.04) + ")";
+              card.style.opacity = i-cur > 2 ? 0 : 1; card.style.zIndex = 20 - (i-cur);
+            }
+          });
+        `;
+      } else if (type === 'poker') {
+        customCSS = `.slider-card { transform-origin: center bottom; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = (i - cur + total) % total;
+            if (diff === 0) {
+              card.style.transform = "translateY(-25px) rotate(0deg) scale(1.04)";
+              card.style.zIndex = 15; card.style.opacity = 1;
+            } else {
+              card.style.transform = "rotate(" + (diff * 14) + "deg) translateY(0) scale(0.95)";
+              card.style.zIndex = 10 - diff; card.style.opacity = diff > 3 ? 0 : 1 - diff*0.2;
+            }
+          });
+        `;
       } else {
         // cylinder 360
         customUpdateFn = `
@@ -1350,7 +1603,6 @@
             .title { font-size: 1rem; font-weight: 800; }
             .count { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 3px; }
             
-            /* Perfectly Visible Centered Bottom Controls */
             .controls {
               display: flex;
               align-items: center;
@@ -1444,7 +1696,14 @@
       stack: "Layered 3D Card Stack",
       hud: "Cyber HUD Hologram View",
       portal: "Cinematic Depth Zoom Portal",
-      cylinder: "360° Cylindrical 3D Carousel"
+      cylinder: "360° Cylindrical 3D Carousel",
+      vault: "Split Vault Doors 3D",
+      flaps: "Venetian Airport Flaps",
+      sinewave: "Sine Wave Harmonic Ribbon",
+      vortex: "Vortex Spiral Rotational Twister",
+      stairs: "Isometric 3D Steps Conveyor",
+      magazine: "3D Magazine Page Flip",
+      poker: "3D Poker Fan Pivot Spread"
     };
 
     function launchSlider(type) {
@@ -1455,7 +1714,6 @@
       const title = sliderTitles[type] || "Interactive 3D Slider";
       titleElem.textContent = title;
 
-      // Inject generated standalone code into iframe
       iframe.srcdoc = generateSliderHTML(type, title);
       modal.classList.remove('hidden');
     }
@@ -1463,7 +1721,7 @@
     function closeSliderRunner() {
       const modal = document.getElementById('slider-runner-modal');
       const iframe = document.getElementById('slider-iframe');
-      iframe.srcdoc = ""; // clear memory
+      iframe.srcdoc = "";
       modal.classList.add('hidden');
     }
 
@@ -1594,7 +1852,6 @@
       }
     }, { passive: true });
 
-    // Scroll Reactive Camera Position for background
     let scrollY = 0;
     window.addEventListener('scroll', () => {
       scrollY = window.scrollY;
@@ -1638,7 +1895,6 @@
       gyroGroup.rotation.y += (targetX - gyroGroup.rotation.y) * 0.05;
       gyroGroup.rotation.x += (targetY - gyroGroup.rotation.x) * 0.05;
 
-      // Ambient background particles rotation and scroll parallax
       bgParticles.rotation.y = elapsedTime * 0.02;
       bgParticles.position.y = -scrollY * 0.02;
 
