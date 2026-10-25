@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wajahat Ali &lt;/&gt; | Full-Stack Developer & Interactive Experience Designer</title>
+  
+  <meta name="description" content="Portfolio of Wajahat Ali </> — Full-Stack Web Developer & Interactive Experience Designer. Featuring backend architectures, commercial platforms, and kinetic 3D WebGL/CSS sliders.">
+  <meta name="author" content="Wajahat Ali">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            heading: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyan: '#06b6d4',
+              indigo: '#6366f1',
+              purple: '#8b5cf6',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    /* 3D Dynamic Glass Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    }
+    .glass-card:hover {
+      border-color: rgba(6, 182, 212, 0.5);
+    }
+
+    /* Interactive 3D Card Tilt Container */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.15s ease-out, box-shadow 0.25s ease;
+      position: relative;
+    }
+    .tilt-card-inner {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+    .tilt-card:hover {
+      box-shadow: 0 20px 45px -12px rgba(6, 182, 212, 0.3);
+      border-color: rgba(6, 182, 212, 0.6);
+    }
+    .card-spotlight {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(6, 182, 212, 0.15), transparent 80%);
+      z-index: 2;
+    }
+    .tilt-card:hover .card-spotlight {
+      opacity: 1;
+    }
+
+    .logo-container { perspective: 800px; }
+    .logo-3d-box {
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    }
+    .logo-container:hover .logo-3d-box {
+      transform: rotateY(18deg) rotateX(-10deg) scale(1.08);
+      box-shadow: 0 12px 25px -4px rgba(6, 182, 212, 0.45);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .dark .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #ambient-particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 3D Button Dynamics */
+    .btn-3d {
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .btn-3d:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 25px -4px rgba(6, 182, 212, 0.45);
+    }
+    .btn-3d:active {
+      transform: translateY(1px) scale(0.98);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-[#060911] dark:text-slate-100 selection:bg-cyan-500 selection:text-white relative">
+
+  <!-- Fixed Global Three.js Ambient Particle Space -->
+  <canvas id="ambient-particles-canvas"></canvas>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass-card py-2.5 sm:py-3 px-4 sm:px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+    <a href="#" class="logo-container flex items-center gap-2 sm:gap-3 group">
+      <!-- 3D "W" Logo -->
+      <div class="logo-3d-box w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-slate-900/90 to-slate-950/90 border border-cyan-500/30 flex items-center justify-center p-1.5 shadow-lg shadow-cyan-500/20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-cyan-500/10 rounded-xl blur-sm group-hover:bg-cyan-500/25 transition"></div>
+        <svg viewBox="0 0 100 100" class="w-full h-full relative z-10 filter drop-shadow-[0_2px_8px_rgba(6,182,212,0.6)]" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="w-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#06b6d4" />
+            </linearGradient>
+            <linearGradient id="w-purple-depth" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#818cf8" />
+              <stop offset="100%" stop-color="#4f46e5" />
+            </linearGradient>
+            <linearGradient id="w-specular" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2" />
+            </linearGradient>
+          </defs>
+          <polygon points="12,24 28,24 45,78 30,78" fill="url(#w-purple-depth)" />
+          <polygon points="20,24 35,24 50,78 36,78" fill="url(#w-cyan)" />
+          <polygon points="50,78 36,78 48,38 60,38" fill="#1e1b4b" opacity="0.8" />
+          <polygon points="48,38 60,38 68,78 54,78" fill="url(#w-cyan)" />
+          <polygon points="54,78 68,78 86,24 72,24" fill="url(#w-purple-depth)" />
+          <polygon points="62,78 76,78 92,24 78,24" fill="url(#w-cyan)" />
+          <polyline points="20,24 36,78 60,38 76,78 92,24" stroke="url(#w-specular)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <span class="font-heading font-bold text-base sm:text-lg tracking-wide text-slate-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition flex items-center gap-1 sm:gap-1.5">
+        Wajahat Ali <span class="text-cyan-500 font-mono text-xs px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">&lt;/&gt;</span>
+      </span>
+    </a>
+
+    <div class="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      Available for Projects & Roles
+    </div>
+
+    <div class="flex items-center gap-2.5 sm:gap-6">
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition">About</a>
+        <a href="#projects" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition">Projects</a>
+        <a href="#sliders-lab" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition flex items-center gap-1 text-cyan-400 font-semibold">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 3D Sliders Lab
+        </a>
+        <a href="#skills" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition">Skills</a>
+        <a href="#contact" class="hover:text-cyan-500 dark:hover:text-cyan-400 transition">Contact</a>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="p-2 rounded-xl glass-card text-slate-700 dark:text-slate-200 hover:text-cyan-500 dark:hover:text-cyan-400 transition" aria-label="Toggle Theme">
+        <i id="theme-icon" data-lucide="sun" class="w-4 h-4 sm:w-5 sm:h-5 hidden dark:block"></i>
+        <i data-lucide="moon" class="w-4 h-4 sm:w-5 sm:h-5 block dark:hidden"></i>
+      </button>
+
+      <a href="#contact" class="btn-3d px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-[11px] sm:text-xs tracking-wider uppercase shadow-lg shadow-cyan-500/25 whitespace-nowrap">
+        Let's Talk
+      </a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative min-h-[90vh] flex items-center pt-24 sm:pt-28 pb-12 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto z-10">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+      
+      <!-- HERO TEXT -->
+      <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left z-20">
+        <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full glass-card text-cyan-600 dark:text-cyan-300 text-[11px] sm:text-xs font-medium mb-5 sm:mb-6 border-cyan-500/30">
+          <span class="font-mono text-cyan-500 font-bold">&lt;/&gt;</span>
+          <span>Full-Stack Web Developer & 3D Interactive Designer</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold font-heading tracking-tight leading-[1.15] mb-4 sm:mb-6 text-slate-900 dark:text-white max-w-2xl">
+          From Beautiful Interfaces to <span class="gradient-text">Powerful Backends.</span>
+        </h1>
+
+        <!-- Mobile 3D Gyro -->
+        <div class="w-full h-[220px] sm:h-[260px] my-2 relative flex items-center justify-center lg:hidden">
+          <div id="gyro-container-mobile" class="w-full h-full relative cursor-grab active:cursor-grabbing"></div>
+        </div>
+
+        <p class="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-xl mb-6 sm:mb-8 leading-relaxed">
+          I build responsive websites, full-stack web applications, API-powered solutions, and immersive 3D experiences using modern web technologies.
+        </p>
+
+        <div class="flex flex-wrap justify-center lg:justify-start gap-1.5 sm:gap-2 mb-6 sm:mb-8 text-[11px] sm:text-xs font-medium text-slate-700 dark:text-slate-300 max-w-lg">
+          <span class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg glass-card">Frontend Engineering</span>
+          <span class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg glass-card">Backend & APIs</span>
+          <span class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg glass-card">Database Architecture</span>
+          <span class="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg glass-card">Interactive 3D Three.js</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto max-w-xs sm:max-w-none">
+          <a href="#projects" class="btn-3d px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 shadow-xl shadow-cyan-500/25">
+            <span>Explore Work</span>
+            <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#sliders-lab" class="btn-3d px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl glass-card text-cyan-600 dark:text-cyan-400 font-semibold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 hover:bg-white/10 border-cyan-500/30">
+            <i data-lucide="box" class="w-4 h-4"></i>
+            <span>3D Sliders Lab</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Desktop 3D Gyro -->
+      <div class="lg:col-span-5 hidden lg:flex items-center justify-center relative w-full h-[440px] z-20">
+        <div id="gyro-container-desktop" class="w-full h-full relative cursor-grab active:cursor-grabbing"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ABOUT SECTION ================= -->
+  <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-6xl mx-auto border-t border-slate-200 dark:border-white/5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div class="text-center md:text-left">
+        <div class="inline-flex md:flex items-center gap-2 text-cyan-500 text-xs uppercase font-bold tracking-widest mb-3">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          About Wajahat Ali &lt;/&gt;
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-heading font-bold mb-4 sm:mb-6">
+          Engineering reliable backends with engaging 3D visual presence.
+        </h2>
+        <div class="space-y-4 text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed text-left">
+          <p>
+            Hello! I am <strong class="text-slate-900 dark:text-white">Wajahat Ali</strong>, a Full-Stack Web Developer and Creative Technologist focused on creating smooth user interfaces grounded in secure, structured backend logic.
+          </p>
+          <p>
+            I engineer web applications where performance, data integrity, and interactive Three.js 3D elements work together seamlessly. Every project is selected to match real architectural requirements rather than unnecessary framework complexity.
+          </p>
+          <p>
+            I maintain complete honesty regarding software readiness—clearly separating actively implemented features from future roadmap plans.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3D Interactive Highlights Cards -->
+      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+        <div class="tilt-card glass-card p-4 sm:p-6 rounded-2xl">
+          <div class="card-spotlight"></div>
+          <div class="tilt-card-inner">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-3 sm:mb-4">
+              <i data-lucide="layers" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </div>
+            <h3 class="font-bold text-sm sm:text-base mb-1">Architecture First</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">Node.js, SQLite, RESTful APIs, Session Security.</p>
+          </div>
+        </div>
+
+        <div class="tilt-card glass-card p-4 sm:p-6 rounded-2xl">
+          <div class="card-spotlight"></div>
+          <div class="tilt-card-inner">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-3 sm:mb-4">
+              <i data-lucide="box" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </div>
+            <h3 class="font-bold text-sm sm:text-base mb-1">Interactive 3D</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">Three.js, WebGL shaders & 3D CSS physics engines.</p>
+          </div>
+        </div>
+
+        <div class="tilt-card glass-card p-4 sm:p-6 rounded-2xl">
+          <div class="card-spotlight"></div>
+          <div class="tilt-card-inner">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3 sm:mb-4">
+              <i data-lucide="database" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </div>
+            <h3 class="font-bold text-sm sm:text-base mb-1">Data & Auth</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">CRUD operations, license encryption & admin controls.</p>
+          </div>
+        </div>
+
+        <div class="tilt-card glass-card p-4 sm:p-6 rounded-2xl">
+          <div class="card-spotlight"></div>
+          <div class="tilt-card-inner">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center mb-3 sm:mb-4">
+              <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+            </div>
+            <h3 class="font-bold text-sm sm:text-base mb-1">Verified Real Work</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">Production-tested backend features and live sites.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN PROJECTS SHOWCASE ================= -->
+  <section id="projects" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-7xl mx-auto border-t border-slate-200 dark:border-white/5">
+    <div class="mb-10 text-center md:text-left">
+      <div class="inline-flex items-center gap-2 text-cyan-500 text-xs uppercase font-bold tracking-widest mb-3">
+        <i data-lucide="folder-git-2" class="w-4 h-4"></i>
+        Featured Systems & Commercial Deployments
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white">
+        Full-Stack Applications & Live Work
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2 max-w-2xl">
+        Hover over any card to experience 3D spatial tilts. Click to open live websites directly or explore system architecture blueprints.
+      </p>
+    </div>
+
+    <!-- MAIN PROJECTS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- PROJECT 1: Canvasprout Marketplace (Backend System) -->
+      <div class="tilt-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between">
+        <div class="card-spotlight"></div>
+        <div class="p-6 tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold border border-purple-500/20">Full-Stack Platform</span>
+              <span class="text-xs text-slate-400 font-mono">Node.js / SQLite</span>
+            </div>
+            
+            <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white mb-2">Canvasprout — Digital Marketplace & Licensing Engine</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+              Multi-vendor digital product distribution platform with automated licensing, order proof review, and vendor commissions.
+            </p>
+
+            <div class="space-y-2 bg-slate-100 dark:bg-black/40 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-[11px] text-slate-600 dark:text-slate-300 mb-4">
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>One-Time License Keys:</strong> Single-use SHA-256 bound activation keys.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>Vendor Management:</strong> 8% platform commission workflow & private proofs.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>Security Core:</strong> Admin Authenticator 2FA & encrypted downloads.</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-700 dark:text-slate-300 mb-6">
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Node.js 24</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">SQLite Engine</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">License Auth</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">TOTP 2FA</span>
+            </div>
+          </div>
+
+          <button onclick="openModal('canvasprout')" class="btn-3d w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-purple-600/20">
+            <i data-lucide="layers" class="w-4 h-4"></i> View System Architecture
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Restaurant Management System (Backend System) -->
+      <div class="tilt-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between">
+        <div class="card-spotlight"></div>
+        <div class="p-6 tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">Full-Stack Enterprise</span>
+              <span class="text-xs text-slate-400 font-mono">Node.js / REST</span>
+            </div>
+            
+            <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white mb-2">RMS — Restaurant Management & Kitchen Engine</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+              Enterprise restaurant POS & customer portal with kitchen live-state tracking, automated reporting, and dining QR menus.
+            </p>
+
+            <div class="space-y-2 bg-slate-100 dark:bg-black/40 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-[11px] text-slate-600 dark:text-slate-300 mb-4">
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>Kitchen Order Pipeline:</strong> Pending, Preparing, Ready, Completed states.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>Customer Tracking:</strong> Live status lookup using order # & phone verification.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-emerald-500 font-bold">✓</span>
+                <span><strong>Dynamic QR Table Engine:</strong> Unique dining URLs per seating capacity.</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-700 dark:text-slate-300 mb-6">
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Node.js</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">SQLite Database</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Session Auth</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Kitchen POS</span>
+            </div>
+          </div>
+
+          <button onclick="openModal('rms')" class="btn-3d w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
+            <i data-lucide="server" class="w-4 h-4"></i> View System Architecture
+          </button>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: AeroWatch Luxury Showcase (Live Site) -->
+      <div class="tilt-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between">
+        <div class="card-spotlight"></div>
+        <div class="p-6 tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold border border-cyan-500/20">Interactive 3D Product</span>
+              <span class="text-xs text-emerald-500 font-semibold">● Live Deployment</span>
+            </div>
+            
+            <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white mb-2">AeroWatch — Luxury Timepiece Web Experience</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+              High-end interactive e-commerce product experience designed with modern luxury aesthetics, typography, and responsive presentation.
+            </p>
+
+            <div class="space-y-2 bg-slate-100 dark:bg-black/40 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-[11px] text-slate-600 dark:text-slate-300 mb-4">
+              <div class="flex items-start gap-2">
+                <span class="text-cyan-500 font-bold">✓</span>
+                <span><strong>Product Staging:</strong> Interactive visual focal points & responsive luxury layout.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-cyan-500 font-bold">✓</span>
+                <span><strong>Precision UX:</strong> Sleek specification meters, touch-ready mobile flow.</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-700 dark:text-slate-300 mb-6">
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">JavaScript ES6</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">CSS3 3D</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Responsive UI</span>
+            </div>
+          </div>
+
+          <a href="https://wajji-ali007.github.io/Watch/" target="_blank" class="btn-3d w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20">
+            <i data-lucide="external-link" class="w-4 h-4"></i> Open Live Project
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: Malir Tonight (Live Site) -->
+      <div class="tilt-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between">
+        <div class="card-spotlight"></div>
+        <div class="p-6 tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold border border-amber-500/20">Commercial Brand Web</span>
+              <span class="text-xs text-emerald-500 font-semibold">● Live Deployment</span>
+            </div>
+            
+            <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white mb-2">Malir Tonight — Hospitality & Dining Portal</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+              Full commercial restaurant and food delivery landing portal designed for high conversion, appetizing visual cards, and smooth navigation.
+            </p>
+
+            <div class="space-y-2 bg-slate-100 dark:bg-black/40 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-[11px] text-slate-600 dark:text-slate-300 mb-4">
+              <div class="flex items-start gap-2">
+                <span class="text-amber-500 font-bold">✓</span>
+                <span><strong>Menu Architecture:</strong> Dynamic dish displays with fast mobile responsiveness.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-amber-500 font-bold">✓</span>
+                <span><strong>Branding & Conversion:</strong> High-impact imagery and direct call-to-actions.</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-700 dark:text-slate-300 mb-6">
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">HTML5 / CSS3</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">JavaScript</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">Mobile-First</span>
+            </div>
+          </div>
+
+          <a href="https://wajji-ali007.github.io/Malir-tonight/" target="_blank" class="btn-3d w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+            <i data-lucide="external-link" class="w-4 h-4"></i> Open Live Project
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECT 5: Restaurant-1 Gourmet Showcase (Live Site) -->
+      <div class="tilt-card glass-card rounded-3xl overflow-hidden flex flex-col justify-between">
+        <div class="card-spotlight"></div>
+        <div class="p-6 tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-[11px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/20">Frontend UI/UX</span>
+              <span class="text-xs text-emerald-500 font-semibold">● Live Deployment</span>
+            </div>
+            
+            <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white mb-2">Resturent-1 — Gourmet Food Interface</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
+              Clean, modern food showcase with responsive menu categories, appetizing card layouts, and quick customer action flows.
+            </p>
+
+            <div class="space-y-2 bg-slate-100 dark:bg-black/40 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-[11px] text-slate-600 dark:text-slate-300 mb-4">
+              <div class="flex items-start gap-2">
+                <span class="text-blue-500 font-bold">✓</span>
+                <span><strong>Interactive Catalog:</strong> Filterable food items with responsive grid layouts.</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-blue-500 font-bold">✓</span>
+                <span><strong>Optimized Performance:</strong> Instant load speeds on desktop and handheld screens.</span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 text-[10px] text-slate-700 dark:text-slate-300 mb-6">
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">HTML5</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">CSS3 Flexbox</span>
+              <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-white/5">JavaScript</span>
+            </div>
+          </div>
+
+          <a href="https://wajji-ali007.github.io/Resturent-1/" target="_blank" class="btn-3d w-full py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
+            <i data-lucide="external-link" class="w-4 h-4"></i> Open Live Project
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= DEDICATED 3D SLIDERS LAB SECTION ================= -->
+  <section id="sliders-lab" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-7xl mx-auto border-t border-slate-200 dark:border-white/5">
+    <div class="mb-10 text-center md:text-left">
+      <div class="inline-flex items-center gap-2 text-cyan-400 text-xs uppercase font-bold tracking-widest mb-3">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        Interactive 3D Motion Lab
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white">
+        Kinetic 3D Sliders & Spatial Math Engine
+      </h2>
+      <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mt-2 max-w-2xl">
+        Every single card below reacts with 3D tilt and cursor spotlights. Click any card to launch the live, fully interactive slider playground with touch swipe & controls!
+      </p>
+    </div>
+
+    <!-- 3D SLIDERS GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Slider 1 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-cyan-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 font-mono font-bold border border-cyan-500/30">Style 01</span>
+              <span class="text-xs text-slate-400 font-mono">Rotate3D Matrix</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Diamond Prism Flip</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              3D angled card deck featuring rotate3d(1, 1, 0, 55deg) spatial translations with depth scaling and smooth momentum easing.
+            </p>
+          </div>
+          <button onclick="launchSlider('prism')" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 2 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-indigo-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 font-mono font-bold border border-indigo-500/30">Style 02</span>
+              <span class="text-xs text-slate-400 font-mono">3D Box Geometry</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Rotating Kinetic Cube</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              4-sided geometric 3D box with 90-degree axial rotations, floor shadow simulation, and auto/manual toggle controllers.
+            </p>
+          </div>
+          <button onclick="launchSlider('cube')" class="btn-3d w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 3 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-purple-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 font-mono font-bold border border-purple-500/30">Style 03</span>
+              <span class="text-xs text-slate-400 font-mono">Spatial Coverflow</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Cyber Coverflow</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Apple-inspired spatial coverflow with dynamic Z-depth pushback, peripheral card tilt angles, and focal point blur transitions.
+            </p>
+          </div>
+          <button onclick="launchSlider('coverflow')" class="btn-3d w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-purple-600/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 4 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-pink-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-400 font-mono font-bold border border-pink-500/30">Style 04</span>
+              <span class="text-xs text-slate-400 font-mono">Inertial Physics</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Pendulum Gravity Swing</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Top-anchored rotation cards mimicking real pendulum gravitational swing, harmonic dampening, and elastic momentum.
+            </p>
+          </div>
+          <button onclick="launchSlider('pendulum')" class="btn-3d w-full py-2.5 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-pink-600/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 5 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-amber-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 font-mono font-bold border border-amber-500/30">Style 05</span>
+              <span class="text-xs text-slate-400 font-mono">Panoramic Curve</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Curved IMAX Cinema Wall</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Parabolic polynomial projection creating an amphitheater wrap-around curved visual cinema stage in 3D perspective space.
+            </p>
+          </div>
+          <button onclick="launchSlider('imax')" class="btn-3d w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 6 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-emerald-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-mono font-bold border border-emerald-500/30">Style 06</span>
+              <span class="text-xs text-slate-400 font-mono">Stack Kinematics</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Layered 3D Card Stack</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Cascading vertical card stack with 3D fly-out discard animations, auto-reordering arrays, and directional swipe gestures.
+            </p>
+          </div>
+          <button onclick="launchSlider('stack')" class="btn-3d w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 7 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-teal-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-400 font-mono font-bold border border-teal-500/30">Style 07</span>
+              <span class="text-xs text-slate-400 font-mono">Holographic FX</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Cyber HUD Hologram</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Sci-fi heads-up-display styling with cyan border glows, dynamic hue-rotate filter shifts, and isometric perspective scales.
+            </p>
+          </div>
+          <button onclick="launchSlider('hud')" class="btn-3d w-full py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-teal-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 8 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-blue-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 font-mono font-bold border border-blue-500/30">Style 08</span>
+              <span class="text-xs text-slate-400 font-mono">Z-Axis Portal</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Cinematic Depth Zoom Portal</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Z-depth optical zoom portal where front slides accelerate past the camera lens into the foreground with optical motion blur.
+            </p>
+          </div>
+          <button onclick="launchSlider('portal')" class="btn-3d w-full py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+      <!-- Slider 9 -->
+      <div class="tilt-card glass-card rounded-3xl p-6 flex flex-col justify-between border-rose-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 font-mono font-bold border border-rose-500/30">Style 09</span>
+              <span class="text-xs text-slate-400 font-mono">360° Cylinder</span>
+            </div>
+            <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">3D Cylindrical Carousel</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+              Full 360-degree rotating cylinder with trigonometric radius auto-calculation (r = w/2 / tan(PI/N)) and live touch drag momentum.
+            </p>
+          </div>
+          <button onclick="launchSlider('cylinder')" class="btn-3d w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-rose-500/25">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Launch Live 3D Slider
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SKILLS SECTION ================= -->
+  <section id="skills" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-6xl mx-auto border-t border-slate-200 dark:border-white/5">
+    <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+      <div class="flex items-center justify-center gap-2 text-cyan-500 text-xs uppercase font-bold tracking-widest mb-3">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        Tech Stack & Capabilities
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-heading font-bold mb-3 sm:mb-4">Organized Skills & Verified Stack</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm">
+        Classified transparently to distinguish active proficiencies from ongoing learning.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-4 sm:mt-6 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Proficient / Core
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Working Knowledge
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span> Actively Exploring
+        </span>
+      </div>
+    </div>
+
+    <!-- Skills 3D Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-cyan-500">
+            <i data-lucide="layout" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Frontend Development</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">HTML5 / CSS3</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">JavaScript (ES6+)</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">React.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Tailwind CSS</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Next.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-300 font-medium">SCSS</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Responsive UI/UX</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-indigo-500">
+            <i data-lucide="server" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Backend & APIs</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Node.js Runtimes</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Express.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">RESTful APIs</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">CRUD Architecture</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Session Auth</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Error Middleware</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-emerald-500">
+            <i data-lucide="database" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Databases & Data</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">SQLite Engine</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">MongoDB</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Schema Migrations</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">SQL Query Design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-purple-500">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Creative 3D Experiences</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Three.js</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">WebGL Renders</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">3D Spatial Sliders</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Mouse/Touch Parallax</span>
+            <span class="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-300 font-medium">GSAP Motion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-pink-500">
+            <i data-lucide="layers" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Full-Stack Logic</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Admin Dashboards</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">License Redemption</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Kitchen Pipeline</span>
+            <span class="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-300 font-medium">Role-Based Access</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-2xl">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner">
+          <div class="flex items-center gap-3 mb-3.5 text-amber-500">
+            <i data-lucide="wrench" class="w-5 h-5"></i>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Workflow & Hosting</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Git & GitHub</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">GitHub Pages</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Vercel Deployments</span>
+            <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 font-medium">Cloudflare Tunnels</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT SECTION ================= -->
+  <section id="contact" class="py-16 sm:py-24 px-4 sm:px-6 md:px-12 relative z-10 max-w-4xl mx-auto border-t border-slate-200 dark:border-white/5 text-center">
+    <div class="inline-flex items-center gap-2 text-cyan-500 text-xs uppercase font-bold tracking-widest mb-3">
+      <i data-lucide="message-circle" class="w-4 h-4"></i>
+      Get In Direct Contact
+    </div>
+    <h2 class="text-2xl sm:text-4xl md:text-5xl font-heading font-bold mb-4 sm:mb-6">
+      Let’s connect and <span class="gradient-text">build together.</span>
+    </h2>
+    <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-base max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+      Reach out directly for freelance opportunities, full-stack engineering collaborations, or 3D creative design inquiries.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto mb-8 sm:mb-10">
+      <!-- Email Card -->
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-3xl flex flex-col items-center justify-between border-cyan-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner w-full flex flex-col items-center">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center mb-3 sm:mb-4">
+            <i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+          </div>
+          <div class="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 mb-1">Official Email</div>
+          <a href="mailto:wajahat.ali37709@gmail.com" class="text-xs sm:text-base font-semibold text-slate-900 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition break-all mb-4">
+            wajahat.ali37709@gmail.com
+          </a>
+          <a href="mailto:wajahat.ali37709@gmail.com" class="btn-3d w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i> Send Email
+          </a>
+        </div>
+      </div>
+
+      <!-- WhatsApp Card -->
+      <div class="tilt-card glass-card p-5 sm:p-6 rounded-3xl flex flex-col items-center justify-between border-emerald-500/20">
+        <div class="card-spotlight"></div>
+        <div class="tilt-card-inner w-full flex flex-col items-center">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-3 sm:mb-4">
+            <i data-lucide="phone-call" class="w-6 h-6"></i>
+          </div>
+          <div class="text-[11px] sm:text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">WhatsApp Direct</div>
+          
+          <div class="w-full space-y-2 mb-2">
+            <a href="https://wa.me/923120248942" target="_blank" class="btn-3d w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20">
+              <i data-lucide="message-square" class="w-4 h-4"></i>
+              <span>Chat: 0312-0248942</span>
+            </a>
+            <a href="https://wa.me/923092229346" target="_blank" class="btn-3d w-full py-2.5 px-4 rounded-xl bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center gap-2">
+              <i data-lucide="message-square" class="w-4 h-4"></i>
+              <span>Chat: 0309-2229346</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-6 sm:py-8 border-t border-slate-200 dark:border-white/5 text-center text-xs text-slate-500 relative z-10 px-4">
+    <p class="font-medium text-slate-700 dark:text-slate-400">
+      Designed & Built by <span class="font-bold text-cyan-600 dark:text-cyan-400">Wajahat Ali &lt;/&gt;</span>
+    </p>
+    <p class="mt-1 text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-600">
+      Three.js WebGL Engine • 3D Spatial CSS Transforms • Verified Full-Stack Architecture
+    </p>
+  </footer>
+
+  <!-- ================= INTERACTIVE BACKEND CASE STUDY MODAL ================= -->
+  <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity">
+    <div class="glass-card bg-slate-900 border border-white/10 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative text-left">
+      <button onclick="closeModal()" class="btn-3d absolute top-5 right-5 p-2 rounded-xl bg-white/10 text-slate-400 hover:text-white transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ================= FIXED & PERFECTLY CENTERED LIVE 3D SLIDER RUNNER MODAL ================= -->
+  <div id="slider-runner-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-xl hidden transition-opacity">
+    <div class="glass-card bg-slate-950 border border-cyan-500/30 rounded-3xl w-full max-w-4xl h-[92vh] max-h-[760px] flex flex-col overflow-hidden shadow-2xl shadow-cyan-500/20 relative">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-3.5 border-b border-white/10 bg-slate-900/80">
+        <div class="flex items-center gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+          <div>
+            <h3 id="slider-runner-title" class="text-sm sm:text-base font-bold font-heading text-white">Live 3D Slider Playground</h3>
+            <p class="text-[11px] text-slate-400">Swipe cards or click buttons • Full 3D motion live</p>
+          </div>
+        </div>
+        <button onclick="closeSliderRunner()" class="btn-3d p-2 rounded-xl bg-white/10 text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Iframe Container that renders the working slider -->
+      <div class="flex-1 w-full h-full relative bg-[#070811] overflow-hidden flex flex-col">
+        <iframe id="slider-iframe" class="w-full h-full border-0 flex-1" sandbox="allow-scripts allow-same-origin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script>
+    lucide.createIcons();
+
+    // ----------------- THEME TOGGLE -----------------
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'dark') {
+      htmlElement.classList.add('dark');
+    } else {
+      htmlElement.classList.remove('dark');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = htmlElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeMaterials(isDark);
+      lucide.createIcons();
+    });
+
+    // ----------------- 3D INTERACTIVE TILT & SPOTLIGHT FOR ALL CARDS -----------------
+    const tiltCards = document.querySelectorAll('.tilt-card');
+
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Set spotlight coordinates
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+
+        // Compute 3D rotation angles (-8 to +8 degrees)
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+
+        const inner = card.querySelector('.tilt-card-inner');
+        if (inner) {
+          inner.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(12px)`;
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        const inner = card.querySelector('.tilt-card-inner');
+        if (inner) {
+          inner.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+        }
+      });
+    });
+
+    // ----------------- MODAL LOGIC FOR BACKEND PROJECTS -----------------
+    const modalData = {
+      canvasprout: {
+        badge: "Full-Stack Architecture & Digital Licensing",
+        title: "Canvasprout — Digital Marketplace & Vendor Platform",
+        summary: "A production-grade digital assets marketplace built on Node.js and SQLite with zero external framework dependencies.",
+        architecture: [
+          { title: "Authentication & Security Core", desc: "Instant buyer registration without friction, salted scrypt password hashing, session tokens, and Admin Authenticator (TOTP) 2FA." },
+          { title: "License & Single-Use Key Delivery", desc: "Cryptographically bound one-time redemption keys allowing verified buyers to claim paid digital downloads." },
+          { title: "8% Vendor Commission Engine", desc: "Dedicated seller profiles, order payment proof uploads (JPG/PNG/PDF), and manual multi-currency review." },
+          { title: "Foreign Exchange Currency Service", desc: "Automated daily exchange-rate reference integration with failover caching." }
+        ],
+        tags: ["Node.js 24", "Built-in SQLite", "TOTP 2FA", "Session Auth", "REST APIs", "Cryptographic Keys"]
+      },
+      rms: {
+        badge: "Full-Stack Enterprise Restaurant POS",
+        title: "RMS — Restaurant Management System & Kitchen Pipeline",
+        summary: "A complete end-to-end restaurant operating solution featuring live order statuses, table reservations, and automated financial reports.",
+        architecture: [
+          { title: "Kitchen Order Lifecycle Pipeline", desc: "Real-time state transitions through Pending → Preparing → Ready → Completed → Cancelled with kitchen audio cues." },
+          { title: "Customer Order & Reservation Tracking", desc: "Public verification lookup using Order/Booking ID paired with customer phone number." },
+          { title: "Dynamic QR Dining Engine", desc: "Unique cryptographic dining URL generator per table seating capacity for instant mobile orders." },
+          { title: "7-Day Analytical Sales Dashboard", desc: "Completed sales metrics, average basket size, cancellation trend monitors, and CSV export utilities." }
+        ],
+        tags: ["Node.js", "SQLite Database", "Kitchen POS", "Reservation System", "QR Generator", "Sales Analytics"]
+      }
+    };
+
+    function openModal(key) {
+      const data = modalData[key];
+      if (!data) return;
+
+      const content = `
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-semibold mb-3 border border-cyan-500/20">
+          ${data.badge}
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold text-white mb-3">${data.title}</h2>
+        <p class="text-sm text-slate-300 mb-6 leading-relaxed">${data.summary}</p>
+        
+        <div class="space-y-4 mb-6">
+          <h3 class="text-xs uppercase tracking-wider font-bold text-cyan-400">Verified System Architecture</h3>
+          ${data.architecture.map(item => `
+            <div class="bg-white/5 border border-white/5 p-4 rounded-xl">
+              <h4 class="text-sm font-bold text-white mb-1">${item.title}</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">${item.desc}</p>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+          ${data.tags.map(t => `<span class="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">${t}</span>`).join('')}
+        </div>
+
+        <button onclick="closeModal()" class="btn-3d w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition">
+          Close Case Study
+        </button>
+      `;
+
+      document.getElementById('modal-content').innerHTML = content;
+      document.getElementById('project-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      document.getElementById('project-modal').classList.add('hidden');
+    }
+
+    // ----------------- RESPONSIVE 3D SLIDER ENGINE (ZERO CUT-OFF) -----------------
+    const sampleImages = [
+      { img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&q=80", title: "Chrome Waves 01", tag: "Liquid" },
+      { img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=700&q=80", title: "Neon Horizon 02", tag: "Cyber" },
+      { img: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=700&q=80", title: "Crystal Prism 03", tag: "Glass" },
+      { img: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=700&q=80", title: "Acrylic Shift 04", tag: "Vibrant" },
+      { img: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&q=80", title: "Synth Glow 05", tag: "Retro" },
+      { img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80", title: "Neural Mesh 06", tag: "Tech" }
+    ];
+
+    function generateSliderHTML(type, title) {
+      let customCSS = "";
+      let customUpdateFn = "";
+
+      if (type === 'prism') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const offset = (i - cur + total) % total;
+            if (offset === 0) {
+              card.style.transform = "rotate3d(1, 1, 0, 0deg) translateZ(50px) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (offset === 1) {
+              card.style.transform = "rotate3d(1, 1, 0, 55deg) translateZ(-160px) scale(0.85)";
+              card.style.opacity = 0.6; card.style.zIndex = 15;
+            } else if (offset === total - 1) {
+              card.style.transform = "rotate3d(1, 1, 0, -55deg) translateZ(-160px) scale(0.85)";
+              card.style.opacity = 0.6; card.style.zIndex = 15;
+            } else {
+              card.style.transform = "rotate3d(1, 1, 0, 90deg) translateZ(-350px) scale(0.6)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'pendulum') {
+        customCSS = `.slider-card { transform-origin: 50% -80px; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const offset = (i - cur + total) % total;
+            if (offset === 0) {
+              card.style.transform = "rotateX(0deg) translateZ(0) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (offset === 1) {
+              card.style.transform = "rotateX(48deg) translateZ(-180px) scale(0.88)";
+              card.style.opacity = 0.55; card.style.zIndex = 10;
+            } else if (offset === total - 1) {
+              card.style.transform = "rotateX(-48deg) translateZ(-180px) scale(0.88)";
+              card.style.opacity = 0.55; card.style.zIndex = 10;
+            } else {
+              card.style.transform = "rotateX(80deg) translateZ(-350px) scale(0.6)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'imax') {
+        customCSS = `.slider-stage { perspective: 850px; } .slider-card { border-radius: 24px; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = i - cur;
+            const rotY = diff * 22;
+            const transX = diff * 150;
+            const transZ = -Math.pow(diff, 2) * 45;
+            card.style.transform = "translate3d(" + transX + "px, 0, " + transZ + "px) rotateY(" + rotY + "deg) scale(" + Math.max(1 - Math.abs(diff)*0.12, 0.6) + ")";
+            card.style.opacity = Math.abs(diff) > 3 ? 0 : 1 - Math.abs(diff)*0.22;
+            card.style.zIndex = 20 - Math.abs(diff);
+          });
+        `;
+      } else if (type === 'hud') {
+        customCSS = `.slider-card { border: 2px solid #06b6d4; box-shadow: 0 0 30px rgba(6,182,212,0.4); }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const offset = (i - cur + total) % total;
+            if (offset === 0) {
+              card.style.transform = "translateZ(80px) rotateY(0deg) scale(1)";
+              card.style.opacity = 1; card.style.filter = "hue-rotate(0deg)"; card.style.zIndex = 20;
+            } else if (offset === 1) {
+              card.style.transform = "translate3d(140px, 0, -140px) rotateY(-35deg) scale(0.85)";
+              card.style.opacity = 0.6; card.style.filter = "hue-rotate(60deg)"; card.style.zIndex = 10;
+            } else if (offset === total - 1) {
+              card.style.transform = "translate3d(-140px, 0, -140px) rotateY(35deg) scale(0.85)";
+              card.style.opacity = 0.6; card.style.filter = "hue-rotate(-60deg)"; card.style.zIndex = 10;
+            } else {
+              card.style.transform = "translateZ(-350px) scale(0.6)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'cube') {
+        customCSS = `.slider-stage { perspective: 1100px; }`;
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const angle = (i - cur) * 90;
+            card.style.transform = "rotateY(" + angle + "deg) translateZ(140px)";
+            card.style.opacity = Math.abs(i - cur) > 1 && Math.abs(i - cur) !== total - 1 ? 0 : 1;
+            card.style.zIndex = (i === cur) ? 20 : 10;
+          });
+        `;
+      } else if (type === 'stack') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = (i - cur + total) % total;
+            if (diff === 0) {
+              card.style.transform = "translateY(0px) translateZ(0px) scale(1) rotate(0deg)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (diff === 1) {
+              card.style.transform = "translateY(22px) translateZ(-45px) scale(0.92) rotate(3deg)";
+              card.style.opacity = 0.85; card.style.zIndex = 18;
+            } else if (diff === 2) {
+              card.style.transform = "translateY(44px) translateZ(-90px) scale(0.85) rotate(-3deg)";
+              card.style.opacity = 0.6; card.style.zIndex = 16;
+            } else {
+              card.style.transform = "translateY(55px) translateZ(-130px) scale(0.78)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else if (type === 'coverflow') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = i - cur;
+            if (diff === 0) {
+              card.style.transform = "translateX(0px) translateZ(50px) rotateY(0deg) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20; card.style.filter = "brightness(1) blur(0px)";
+            } else {
+              const dir = diff > 0 ? 1 : -1;
+              card.style.transform = "translateX(" + (diff * 130) + "px) translateZ(-130px) rotateY(" + (-dir * 38) + "deg) scale(0.85)";
+              card.style.opacity = Math.max(1 - Math.abs(diff)*0.3, 0.2);
+              card.style.zIndex = 20 - Math.abs(diff);
+              card.style.filter = "brightness(0.65) blur(2px)";
+            }
+          });
+        `;
+      } else if (type === 'portal') {
+        customUpdateFn = `
+          cards.forEach((card, i) => {
+            const diff = (i - cur + total) % total;
+            if (diff === 0) {
+              card.style.transform = "translate3d(0, 0, 0px) scale(1)";
+              card.style.opacity = 1; card.style.zIndex = 20;
+            } else if (diff <= 3) {
+              card.style.transform = "translate3d(0, " + (diff * 16) + "px, " + (-diff * 120) + "px) scale(" + (1 - diff * 0.1) + ")";
+              card.style.opacity = 1 - diff * 0.25; card.style.zIndex = 20 - diff;
+            } else {
+              card.style.transform = "translate3d(0, 60px, -450px) scale(0.5)";
+              card.style.opacity = 0; card.style.zIndex = 1;
+            }
+          });
+        `;
+      } else {
+        // cylinder 360
+        customUpdateFn = `
+          const step = 360 / total;
+          cards.forEach((card, i) => {
+            const angle = (i - cur) * step;
+            card.style.transform = "rotateY(" + angle + "deg) translateZ(240px)";
+            card.style.opacity = (Math.cos(angle * Math.PI / 180) > -0.2) ? 1 : 0.2;
+            card.style.zIndex = Math.round((Math.cos(angle * Math.PI / 180) + 1) * 10);
+          });
+        `;
+      }
+
+      const cardsHTML = sampleImages.map((s, idx) => `
+        <div class="slider-card" data-index="${idx}">
+          <img src="${s.img}" alt="${s.title}">
+          <div class="card-overlay">
+            <span class="badge">${s.tag}</span>
+            <h3 class="title">${s.title}</h3>
+            <span class="count">0${idx+1} / 06</span>
+          </div>
+        </div>
+      `).join('');
+
+      return `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+          <style>
+            :root { 
+              --w: clamp(210px, 32vh, 260px); 
+              --h: clamp(280px, 44vh, 350px); 
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+            html, body {
+              width: 100%;
+              height: 100%;
+              overflow: hidden;
+            }
+            body {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-between;
+              background: #070811;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+              color: #fff;
+              padding: 12px 10px 18px;
+            }
+            .header-info { text-align: center; z-index: 10; margin-top: 2px; }
+            .style-badge { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: #06b6d4; font-weight: 700; }
+            .slider-stage {
+              position: relative;
+              width: 100%;
+              flex: 1;
+              min-height: 270px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              perspective: 1100px;
+              touch-action: pan-y;
+              cursor: grab;
+              margin: auto 0;
+            }
+            .slider-stage:active { cursor: grabbing; }
+            .slider-deck { position: relative; width: var(--w); height: var(--h); transform-style: preserve-3d; }
+            .slider-card {
+              position: absolute;
+              inset: 0;
+              border-radius: 20px;
+              overflow: hidden;
+              background: #12131f;
+              border: 1px solid rgba(255, 255, 255, 0.15);
+              box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+              transition: transform 0.65s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.65s ease, filter 0.65s ease;
+              will-change: transform, opacity;
+            }
+            .slider-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+            .card-overlay {
+              position: absolute;
+              inset: 0;
+              background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, transparent 60%);
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-end;
+              padding: 16px;
+            }
+            .badge { font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: #38bdf8; font-weight: 700; margin-bottom: 3px; }
+            .title { font-size: 1rem; font-weight: 800; }
+            .count { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-top: 3px; }
+            
+            /* Perfectly Visible Centered Bottom Controls */
+            .controls {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 16px;
+              z-index: 20;
+              padding-top: 8px;
+            }
+            .btn {
+              width: 44px; height: 44px; border-radius: 50%;
+              background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22);
+              color: #fff; display: flex; align-items: center; justify-content: center;
+              cursor: pointer; backdrop-filter: blur(10px); transition: all 0.25s;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            }
+            .btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); border-color: #06b6d4; }
+            .btn:active { transform: scale(0.95); }
+            .auto-btn {
+              width: auto; padding: 0 20px; border-radius: 30px; font-size: 0.78rem; font-weight: 800;
+              color: #06b6d4; border-color: rgba(6,182,212,0.5); background: rgba(6,182,212,0.15);
+              letter-spacing: 1px;
+            }
+            .auto-btn.paused { color: #f87171; border-color: rgba(248,113,113,0.5); background: rgba(248,113,113,0.15); }
+            ${customCSS}
+          </style>
+        </head>
+        <body>
+          <div class="header-info"><span class="style-badge">${title}</span></div>
+          <div class="slider-stage" id="stage"><div class="slider-deck" id="deck">${cardsHTML}</div></div>
+          <div class="controls">
+            <button class="btn" id="prevBtn" title="Previous">❮</button>
+            <button class="btn auto-btn" id="autoBtn">AUTO ON</button>
+            <button class="btn" id="nextBtn" title="Next">❯</button>
+          </div>
+          <script>
+            const deck = document.getElementById("deck");
+            const stage = document.getElementById("stage");
+            let cards = Array.from(document.querySelectorAll(".slider-card"));
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const autoBtn = document.getElementById("autoBtn");
+            let cur = 0;
+            const total = cards.length;
+            let isAuto = true;
+            let timer = null;
+
+            function updateDeck() {
+              ${customUpdateFn}
+            }
+
+            function rotateNext() { cur = (cur + 1) % total; updateDeck(); }
+            function rotatePrev() { cur = (cur - 1 + total) % total; updateDeck(); }
+            function startAuto() { clearInterval(timer); timer = setInterval(rotateNext, 3400); }
+
+            autoBtn.addEventListener("click", () => {
+              isAuto = !isAuto;
+              if (isAuto) { autoBtn.classList.remove("paused"); autoBtn.innerText = "AUTO ON"; startAuto(); }
+              else { autoBtn.classList.add("paused"); autoBtn.innerText = "PAUSED"; clearInterval(timer); }
+            });
+
+            nextBtn.addEventListener("click", () => { rotateNext(); if (isAuto) startAuto(); });
+            prevBtn.addEventListener("click", () => { rotatePrev(); if (isAuto) startAuto(); });
+
+            let sX = 0;
+            stage.addEventListener("pointerdown", e => sX = e.clientX);
+            stage.addEventListener("pointerup", e => {
+              let diff = e.clientX - sX;
+              if (diff < -35) { rotateNext(); if (isAuto) startAuto(); }
+              else if (diff > 35) { rotatePrev(); if (isAuto) startAuto(); }
+            });
+
+            window.addEventListener("keydown", e => {
+              if (e.key === "ArrowRight") { rotateNext(); if (isAuto) startAuto(); }
+              if (e.key === "ArrowLeft") { rotatePrev(); if (isAuto) startAuto(); }
+            });
+
+            updateDeck();
+            startAuto();
+          <\/script>
+        </body>
+        </html>
+      `;
+    }
+
+    const sliderTitles = {
+      prism: "Diamond Prism Spatial Flip",
+      cube: "3D Kinetic Rotating Cube",
+      coverflow: "3D Spatial Cyber Coverflow",
+      pendulum: "Pendulum Inertial Gravity Swing",
+      imax: "Curved IMAX Panoramic Wall",
+      stack: "Layered 3D Card Stack",
+      hud: "Cyber HUD Hologram View",
+      portal: "Cinematic Depth Zoom Portal",
+      cylinder: "360° Cylindrical 3D Carousel"
+    };
+
+    function launchSlider(type) {
+      const modal = document.getElementById('slider-runner-modal');
+      const iframe = document.getElementById('slider-iframe');
+      const titleElem = document.getElementById('slider-runner-title');
+
+      const title = sliderTitles[type] || "Interactive 3D Slider";
+      titleElem.textContent = title;
+
+      // Inject generated standalone code into iframe
+      iframe.srcdoc = generateSliderHTML(type, title);
+      modal.classList.remove('hidden');
+    }
+
+    function closeSliderRunner() {
+      const modal = document.getElementById('slider-runner-modal');
+      const iframe = document.getElementById('slider-iframe');
+      iframe.srcdoc = ""; // clear memory
+      modal.classList.add('hidden');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeSliderRunner();
+      }
+    });
+
+    // ----------------- GLOBAL THREE.JS AMBIENT BACKGROUND WITH SCROLL REACTIVITY -----------------
+    const bgCanvas = document.getElementById('ambient-particles-canvas');
+    const bgScene = new THREE.Scene();
+    const bgCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    bgCamera.position.z = 40;
+
+    const bgRenderer = new THREE.WebGLRenderer({ canvas: bgCanvas, alpha: true, antialias: true });
+    bgRenderer.setSize(window.innerWidth, window.innerHeight);
+    bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const bgCount = 220;
+    const bgPositions = new Float32Array(bgCount * 3);
+    for (let i = 0; i < bgCount * 3; i++) {
+      bgPositions[i] = (Math.random() - 0.5) * 85;
+    }
+    const bgGeo = new THREE.BufferGeometry();
+    bgGeo.setAttribute('position', new THREE.BufferAttribute(bgPositions, 3));
+    const bgMat = new THREE.PointsMaterial({
+      size: 0.14,
+      color: 0x06b6d4,
+      transparent: true,
+      opacity: 0.45
+    });
+    const bgParticles = new THREE.Points(bgGeo, bgMat);
+    bgScene.add(bgParticles);
+
+    // ----------------- 3D GYROSCOPE (MOBILE & DESKTOP) -----------------
+    const isMobileInitial = window.innerWidth < 1024;
+    const activeContainer = isMobileInitial 
+      ? document.getElementById('gyro-container-mobile')
+      : document.getElementById('gyro-container-desktop');
+
+    const gyroScene = new THREE.Scene();
+    const gyroCamera = new THREE.PerspectiveCamera(50, activeContainer.clientWidth / activeContainer.clientHeight, 0.1, 1000);
+    gyroCamera.position.z = 17;
+
+    const gyroRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    gyroRenderer.setSize(activeContainer.clientWidth, activeContainer.clientHeight);
+    gyroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    gyroRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    gyroRenderer.toneMappingExposure = 1.2;
+    activeContainer.appendChild(gyroRenderer.domElement);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    gyroScene.add(ambientLight);
+
+    const cyanPointLight = new THREE.PointLight(0x06b6d4, 3, 50);
+    cyanPointLight.position.set(8, 8, 10);
+    gyroScene.add(cyanPointLight);
+
+    const violetPointLight = new THREE.PointLight(0x8b5cf6, 3, 50);
+    violetPointLight.position.set(-8, -8, -10);
+    gyroScene.add(violetPointLight);
+
+    const gyroGroup = new THREE.Group();
+    gyroScene.add(gyroGroup);
+
+    const outerRingMat = new THREE.MeshStandardMaterial({
+      color: 0x0ea5e9, metalness: 0.85, roughness: 0.2, emissive: 0x0284c7, emissiveIntensity: 0.25
+    });
+    const midRingMat = new THREE.MeshStandardMaterial({
+      color: 0x8b5cf6, metalness: 0.85, roughness: 0.25, emissive: 0x7c3aed, emissiveIntensity: 0.25
+    });
+    const innerRingMat = new THREE.MeshStandardMaterial({
+      color: 0x06b6d4, metalness: 0.9, roughness: 0.15, emissive: 0x0891b2, emissiveIntensity: 0.3
+    });
+
+    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(4.8, 0.2, 24, 100), outerRingMat);
+    const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.8, 0.2, 24, 100), midRingMat);
+    const ring3 = new THREE.Mesh(new THREE.TorusGeometry(2.8, 0.2, 24, 100), innerRingMat);
+    gyroGroup.add(ring1);
+    gyroGroup.add(ring2);
+    gyroGroup.add(ring3);
+
+    const coreMesh = new THREE.Mesh(
+      new THREE.OctahedronGeometry(1.3, 0),
+      new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.3, roughness: 0.1, emissive: 0x06b6d4, emissiveIntensity: 0.85 })
+    );
+    gyroGroup.add(coreMesh);
+
+    function updateThemeMaterials(isDark) {
+      if (isDark) {
+        outerRingMat.color.setHex(0x0ea5e9);
+        midRingMat.color.setHex(0x8b5cf6);
+        innerRingMat.color.setHex(0x06b6d4);
+        bgMat.color.setHex(0x06b6d4);
+        ambientLight.intensity = 0.9;
+      } else {
+        outerRingMat.color.setHex(0x0284c7);
+        midRingMat.color.setHex(0x6366f1);
+        innerRingMat.color.setHex(0x0891b2);
+        bgMat.color.setHex(0x0284c7);
+        ambientLight.intensity = 1.4;
+      }
+    }
+
+    let mouseX = 0; let mouseY = 0;
+    let targetX = 0; let targetY = 0;
+
+    function handlePointer(clientX, clientY, targetElem) {
+      const rect = targetElem.getBoundingClientRect();
+      const x = clientX - (rect.left + rect.width / 2);
+      const y = clientY - (rect.top + rect.height / 2);
+      mouseX = x * 0.002;
+      mouseY = y * 0.002;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      const currentParent = gyroRenderer.domElement.parentElement;
+      if (currentParent) handlePointer(e.clientX, e.clientY, currentParent);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const currentParent = gyroRenderer.domElement.parentElement;
+        if (currentParent) handlePointer(touch.clientX, touch.clientY, currentParent);
+      }
+    }, { passive: true });
+
+    // Scroll Reactive Camera Position for background
+    let scrollY = 0;
+    window.addEventListener('scroll', () => {
+      scrollY = window.scrollY;
+    });
+
+    function checkContainer() {
+      const isMobile = window.innerWidth < 1024;
+      const targetBox = isMobile 
+        ? document.getElementById('gyro-container-mobile')
+        : document.getElementById('gyro-container-desktop');
+
+      if (gyroRenderer.domElement.parentElement !== targetBox) {
+        targetBox.appendChild(gyroRenderer.domElement);
+      }
+
+      gyroCamera.aspect = targetBox.clientWidth / targetBox.clientHeight;
+      gyroCamera.updateProjectionMatrix();
+      gyroRenderer.setSize(targetBox.clientWidth, targetBox.clientHeight);
+
+      bgCamera.aspect = window.innerWidth / window.innerHeight;
+      bgCamera.updateProjectionMatrix();
+      bgRenderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    window.addEventListener('resize', checkContainer);
+
+    const clock = new THREE.Clock();
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
+
+      ring1.rotation.x += 0.009; ring1.rotation.y += 0.006;
+      ring2.rotation.y += 0.012; ring2.rotation.z += 0.007;
+      ring3.rotation.x -= 0.010; ring3.rotation.z += 0.014;
+
+      coreMesh.rotation.y += 0.02; coreMesh.rotation.x += 0.01;
+      const pulse = 1 + Math.sin(elapsedTime * 3) * 0.08;
+      coreMesh.scale.set(pulse, pulse, pulse);
+
+      targetX = mouseX * 2.2; targetY = mouseY * 2.2;
+      gyroGroup.rotation.y += (targetX - gyroGroup.rotation.y) * 0.05;
+      gyroGroup.rotation.x += (targetY - gyroGroup.rotation.x) * 0.05;
+
+      // Ambient background particles rotation and scroll parallax
+      bgParticles.rotation.y = elapsedTime * 0.02;
+      bgParticles.position.y = -scrollY * 0.02;
+
+      gyroRenderer.render(gyroScene, gyroCamera);
+      bgRenderer.render(bgScene, bgCamera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
